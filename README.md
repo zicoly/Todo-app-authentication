@@ -1,4 +1,3 @@
-```markdown
 # ![Checklist Icon](https://img.icons8.com/emoji/48/000000/check-mark-emoji.png "Checklist") Todo App with User Authentication
 
 A feature-rich Todo List application built using React and Vite, designed to enhance productivity by helping users manage their tasks effectively. The app includes user authentication to ensure secure access and personalized task management.
