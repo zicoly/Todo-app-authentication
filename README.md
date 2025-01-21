@@ -4,7 +4,7 @@ A feature-rich Todo List application built using React and Vite, designed to enh
 
 ---
 
-## ![Features Icon](https://img.icons8.com/external-flaticons-lineal-color-flat-icons/64/000000/external-features-web-development-flaticons-lineal-color-flat-icons.png "Features") Features
+## ![Features Icon](https://img.icons8.com/ios-filled/50/000000/list.png "Features") Features
 
 ### Core Features
 - **Onboarding Pages**:
