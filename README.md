@@ -1,14 +1,17 @@
-# Todo App with User Authentication
+```markdown
+# ![Checklist Icon](https://img.icons8.com/emoji/48/000000/check-mark-emoji.png "Checklist") Todo App with User Authentication
 
 A feature-rich Todo List application built using React and Vite, designed to enhance productivity by helping users manage their tasks effectively. The app includes user authentication to ensure secure access and personalized task management.
 
-## Features
+---
+
+## ![Features Icon](https://img.icons8.com/external-flaticons-lineal-color-flat-icons/64/000000/external-features-web-development-flaticons-lineal-color-flat-icons.png "Features") Features
 
 ### Core Features
 - **Onboarding Pages**:
   - Introduction to the app, including group information (Group A, member names, course code, and project title).
-  - Overview of the app’s purpose and how it can improve task management.
-  
+  - Overview of the app’s purpose and how it improves task management.
+
 - **Authentication Pages**:
   - **Login**: Secure login with validation.
   - **Register**: User registration form with basic field validations.
@@ -22,15 +25,19 @@ A feature-rich Todo List application built using React and Vite, designed to enh
   - Clean, responsive design with intuitive navigation.
   - Smooth transitions and animations.
 
-## Tech Stack
-- **Frontend**: React + Vite
-- **Styling**: Tailwind CSS
-- **State Management**: React Context API
-- **Routing**: React Router
-- **Authentication**: MongoDB along with Node.js and Express.js
-- **Version Control**: Git + GitHub
+---
 
-## Installation
+## ![Tech Stack Icon](https://img.icons8.com/color/48/000000/system-task.png "Tech Stack") Tech Stack
+- **Frontend**: React + Vite  
+- **Styling**: Tailwind CSS  
+- **State Management**: React Context API  
+- **Routing**: React Router  
+- **Authentication**: MongoDB with Node.js and Express.js  
+- **Version Control**: Git + GitHub  
+
+---
+
+## ![Setup Icon](https://img.icons8.com/color/48/000000/settings.png "Setup") Installation
 
 ### Prerequisites
 - Node.js (v16 or higher)
@@ -53,13 +60,14 @@ A feature-rich Todo List application built using React and Vite, designed to enh
    ```bash
    npm run dev
    ```
-
 5. Open your browser and navigate to:
-   ```
+   ```text
    http://localhost:5173
    ```
 
-## Project Structure
+---
+
+## ![Structure Icon](https://img.icons8.com/dusk/64/000000/folder-invoices.png "Folder Structure") Project Structure
 ```
 src/
 ├── components/      # Reusable components (e.g., buttons, modals)
@@ -71,7 +79,40 @@ src/
 └── assets/          # Static files (images, icons)
 ```
 
-## Contribution Guidelines
+---
+
+## ![Team Icon](https://img.icons8.com/color/48/000000/conference-call.png "Team") Team Members
+- **Group A**  
+1. **Omojola Zion Olalekan**  
+   LCU/UG/21/19103 - Computer Science  
+
+2. **Adeyemi Ayomide Jesuloba**  
+   LCU/UG/21/21106 - Computer Science  
+
+3. **Madike Olisaemeka Valerian**  
+   LCU/UG/21/20072 - Software Engineering  
+
+4. **Abdulaziz Usama**  
+   LCU/UG/21/21062 - Information Technology  
+
+5. **Daniel Ameh Ochoga**  
+   LCU/UG/21/20342 - Computer Science  
+
+6. **Okanlawon Mariam Oyebola**  
+   LCU/UG/22/24404 - Computer Science  
+
+7. **Aleilo Muhsin Olamide**  
+   LCU/UG/21/19854 - Computer Science  
+
+---
+
+## ![Course Icon](https://img.icons8.com/external-flat-juicy-fish/48/000000/external-book-education-flat-flat-juicy-fish.png "Course") Course Information
+- **Course Code**: GST 306  
+- **Project Title**: Todo App with User Authentication  
+
+---
+
+## ![Contribute Icon](https://img.icons8.com/fluency/48/000000/pull-request.png "Contribute") Contribution Guidelines
 1. Fork the repository and create a new branch for your feature:
    ```bash
    git checkout -b <feature-name>
@@ -86,47 +127,19 @@ src/
    ```
 4. Submit a pull request for review.
 
-## Team Members
-- **Group A**  
-1) Omojola Zion Olalekan
-LCU/ug/21/19103
-Computer science
+---
 
-2) Adeyemi Ayomide Jesuloba 
-LCU/UG/21/21106
-Computer Science
-
-3) Madike Olisaemeka Valerian 
-LCU/ug/21/20072
-software engineering
-
-4) ABDULAZIZ USAMA
-LCU/Ug/21/21062
-INFORMATION TECHNOLOGY
-
-5) Daniel Ameh Ochoga
-LCU/UG/21/20342
-Computer Science
-
-6) Okanlawon Mariam Oyebola
-LCU/UG/22/24404
-Computer Science
-
-7) Aleilo muhsin olamide 
-Lcu/ug/21/19854
-Computer science 
-
-## Course Information
-- **Course Code**: GST 306  
-- **Project Title**: Todo App with User Authentication  
-
-## License
+## ![License Icon](https://img.icons8.com/color/48/000000/copyright.png "License") License
 This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
 
-## Acknowledgments
-Special thanks to our lecturer for the project guidelines and our teammates for their contributions.
+---
+
+## ![Heart Icon](https://img.icons8.com/emoji/48/000000/red-heart.png "Built with Love") Acknowledgments
+Special thanks to our lecturer for the project guidelines and our teammates for their dedication and effort.
 
 ---
 
 Built with ❤️ by **Group A**.
-```  
+```
+
+---
