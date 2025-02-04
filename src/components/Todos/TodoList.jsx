@@ -1,6 +1,6 @@
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FiCheck, FiEdit, FiTrash2 } from "react-icons/fi";
+import { Check, Edit, Trash2, Inbox } from "lucide-react";
 
 const TodoList = ({
   filteredTodos,
@@ -8,7 +8,28 @@ const TodoList = ({
   handleDeleteTodo,
   setEditingTodo,
   setEditText,
+  filter,
 }) => {
+  if (filteredTodos.length === 0) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex flex-col items-center justify-center py-12 text-gray-500"
+      >
+        <Inbox className="w-12 h-12 mb-4 text-white opacity-50 stroke-1" />
+        <p className="text-lg font-medium text-white/60">No tasks found</p>
+        <p className="text-sm opacity-75 text-white/60">
+          {filter === "completed"
+            ? "You have no completed tasks"
+            : filter === "pending"
+            ? "You have no pending tasks"
+            : "Start by adding a new task"}
+        </p>
+      </motion.div>
+    );
+  }
+
   return (
     <motion.ul className="space-y-3 max-h-[60vh] overflow-y-auto">
       <AnimatePresence>
@@ -29,7 +50,7 @@ const TodoList = ({
                     : "border-gray-300 hover:border-indigo-500"
                 }`}
               >
-                {todo.completed && <FiCheck className="text-white" />}
+                {todo.completed && <Check className="w-4 h-4 text-white" />}
               </button>
               <span
                 className={`${
@@ -49,13 +70,13 @@ const TodoList = ({
                 }}
                 className="text-gray-400 hover:text-indigo-500 transition-colors opacity-0 group-hover:opacity-100"
               >
-                <FiEdit size={18} />
+                <Edit className="w-[18px] h-[18px]" />
               </button>
               <button
                 onClick={() => handleDeleteTodo(todo._id)}
                 className="text-gray-400 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100"
               >
-                <FiTrash2 size={18} />
+                <Trash2 className="w-[18px] h-[18px]" />
               </button>
             </div>
           </motion.li>

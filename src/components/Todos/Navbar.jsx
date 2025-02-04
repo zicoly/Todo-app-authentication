@@ -14,9 +14,17 @@ const Navbar = ({
       "https://images.unsplash.com/photo-1543466835-00a7907e9de1?q=80&w=1674&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // Default profile picture
   });
 
-  // Fetch user data from localStorage on component mount
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Check for authToken in localStorage on component mount
   useEffect(() => {
+    const authToken = localStorage.getItem("authToken");
     const userData = JSON.parse(localStorage.getItem("userData"));
+
+    if (authToken) {
+      setIsLoggedIn(true);
+    }
+
     if (userData) {
       setUser(userData);
     }
@@ -41,49 +49,59 @@ const Navbar = ({
             >
               About
             </button>
-            <div className="relative">
-              <button
-                onClick={() => setShowProfileDropdown(!showProfileDropdown)}
-                className="text-gray-600 hover:text-indigo-600 transition-colors"
-              >
-                <img
-                  src={user.profileIcon}
-                  alt="Profile"
-                  className="w-8 h-8 rounded-full object-cover"
-                />
-              </button>
-              {showProfileDropdown && (
-                <div className="absolute right-0 mt-2 w-56 bg-white bg-opacity-90 rounded-lg shadow-lg py-2 backdrop-blur-md border border-white/20">
-                  {/* Greeting Section */}
-                  <div className="px-4 py-3 border-b border-white/20 flex items-center gap-3">
-                    <img
-                      src={user.profileIcon}
-                      alt="Profile"
-                      className="w-10 h-10 rounded-full object-cover"
-                    />
-                    <div>
-                      <p className="text-gray-700 text-sm">Welcome back,</p>
-                      <p className="text-gray-900 font-semibold text-lg">
-                        {user.name}
-                      </p>
+            {isLoggedIn ? (
+              <div className="relative">
+                <button
+                  onClick={() => setShowProfileDropdown(!showProfileDropdown)}
+                  className="text-gray-600 hover:text-indigo-600 transition-colors"
+                >
+                  <img
+                    src={user.profileIcon}
+                    alt="Profile"
+                    className="w-8 h-8 rounded-full object-cover"
+                  />
+                </button>
+                {showProfileDropdown && (
+                  <div className="absolute right-0 mt-2 w-56 bg-white bg-opacity-90 rounded-lg shadow-lg py-2 backdrop-blur-md border border-white/20">
+                    {/* Greeting Section */}
+                    <div className="px-4 py-3 border-b border-white/20 flex items-center gap-3">
+                      <img
+                        src={user.profileIcon}
+                        alt="Profile"
+                        className="w-10 h-10 rounded-full object-cover"
+                      />
+                      <div>
+                        <p className="text-gray-700 text-sm">Welcome back,</p>
+                        <p className="text-gray-900 font-semibold text-lg">
+                          {user.name}
+                        </p>
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Logout Option */}
-                  <button
-                    onClick={() => {
-                      localStorage.removeItem("authToken");
-                      localStorage.removeItem("userData");
-                      navigate("/login");
-                    }}
-                    className="w-full px-4 py-3 text-left text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors flex items-center gap-2"
-                  >
-                    <FiLogOut className="text-gray-600" />
-                    <span>Logout</span>
-                  </button>
-                </div>
-              )}
-            </div>
+                    {/* Logout Option */}
+                    <button
+                      onClick={() => {
+                        localStorage.removeItem("authToken");
+                        localStorage.removeItem("userData");
+                        setIsLoggedIn(false);
+                        navigate("/login");
+                      }}
+                      className="w-full px-4 py-3 text-left text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors flex items-center gap-2"
+                    >
+                      <FiLogOut className="text-gray-600" />
+                      <span>Logout</span>
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <button
+                onClick={() => navigate("/login")}
+                className="text-white hover:text-black transition-colors text-lg bg-gray-500 rounded-lg px-2 py-1"
+              >
+                Sign In
+              </button>
+            )}
           </div>
         </div>
       </div>

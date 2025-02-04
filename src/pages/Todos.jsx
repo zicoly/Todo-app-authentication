@@ -1,3 +1,4 @@
+// Todos.jsx
 import React, { useState, useEffect } from "react";
 import axios from "../api/axios";
 import { useNavigate } from "react-router-dom";
@@ -26,37 +27,54 @@ const Todos = ({ showAbout }) => {
   const [editingTodo, setEditingTodo] = useState(null);
   const [editText, setEditText] = useState("");
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
-  const [showSettingsModal, setShowSettingsModal] = useState(false);
   const [user, setUser] = useState({
     name: "User",
     email: "user@example.com",
-    profileIcon:
-      "https://images.unsplash.com/photo-1533738363-b7f9aef128ce?q=80&w=1635&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    profileIcon: "default-profile-icon-url",
   });
+
   const navigate = useNavigate();
-  const token = localStorage.getItem("authToken");
-  
+
+  // Check authentication and navigate if needed
+  const checkAuthAndNavigate = () => {
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      navigate("/login");
+      return false;
+    }
+    return true;
+  };
 
   const fetchUserDetails = async () => {
+    const token = localStorage.getItem("authToken");
+    if (!token) return;
+
     try {
-      const response = await axios.get("auth/user", {
+      const response = await axios.get("/auth/user", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUser({
         name: response.data.name,
         email: response.data.email,
-        profileIcon: response.data.profileIcon || "default1",
+        profileIcon: response.data.profileIcon || "default-profile-icon-url",
       });
     } catch (err) {
       console.error("Failed to fetch user details:", err);
+      if (err.response?.status === 401) {
+        localStorage.removeItem("authToken");
+        navigate("/login");
+      }
     }
   };
 
   const fetchTodos = async () => {
+    const token = localStorage.getItem("authToken");
     if (!token) {
       setLoading(false);
+      navigate("/login");
       return;
     }
+
     try {
       const response = await axios.get("/todos", {
         headers: { Authorization: `Bearer ${token}` },
@@ -66,9 +84,19 @@ const Todos = ({ showAbout }) => {
     } catch (err) {
       setError("Failed to fetch todos. Please try again.");
       console.error("Fetch error:", err);
+      if (err.response?.status === 401) {
+        localStorage.removeItem("authToken");
+        navigate("/login");
+      }
     } finally {
       setLoading(false);
     }
+  };
+
+  // Filter change handler with auth check
+  const handleFilterChange = (filterType) => {
+    if (!checkAuthAndNavigate()) return;
+    setFilter(filterType);
   };
 
   useEffect(() => {
@@ -79,9 +107,9 @@ const Todos = ({ showAbout }) => {
   }, [error]);
 
   useEffect(() => {
+    fetchUserDetails();
     fetchTodos();
-    if (token) fetchUserDetails();
-  }, [token]);
+  }, []);
 
   const filteredTodos = todos.filter((todo) => {
     if (filter === "completed") return todo.completed;
@@ -91,13 +119,11 @@ const Todos = ({ showAbout }) => {
 
   const handleAddTodo = async (e) => {
     e.preventDefault();
-    if (!token) {
-      navigate("/login");
-      return;
-    }
+    if (!checkAuthAndNavigate()) return;
     if (!newTodo.trim()) return;
 
     try {
+      const token = localStorage.getItem("authToken");
       const response = await axios.post(
         "/todos",
         { title: newTodo.trim() },
@@ -109,15 +135,18 @@ const Todos = ({ showAbout }) => {
     } catch (err) {
       setError("Failed to add task. Please try again.");
       console.error("Add error:", err);
+      if (err.response?.status === 401) {
+        localStorage.removeItem("authToken");
+        navigate("/login");
+      }
     }
   };
 
   const handleToggleTodo = async (todo) => {
-    if (!token) {
-      navigate("/login");
-      return;
-    }
+    if (!checkAuthAndNavigate()) return;
+
     try {
+      const token = localStorage.getItem("authToken");
       const response = await axios.put(
         `/todos/${todo._id}`,
         { completed: !todo.completed },
@@ -128,15 +157,18 @@ const Todos = ({ showAbout }) => {
     } catch (err) {
       setError("Failed to update task. Please try again.");
       console.error("Update error:", err);
+      if (err.response?.status === 401) {
+        localStorage.removeItem("authToken");
+        navigate("/login");
+      }
     }
   };
 
   const handleDeleteTodo = async (id) => {
-    if (!token) {
-      navigate("/login");
-      return;
-    }
+    if (!checkAuthAndNavigate()) return;
+
     try {
+      const token = localStorage.getItem("authToken");
       await axios.delete(`/todos/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -145,15 +177,18 @@ const Todos = ({ showAbout }) => {
     } catch (err) {
       setError("Failed to delete task. Please try again.");
       console.error("Delete error:", err);
+      if (err.response?.status === 401) {
+        localStorage.removeItem("authToken");
+        navigate("/login");
+      }
     }
   };
 
   const handleEditTodo = async () => {
-    if (!token) {
-      navigate("/login");
-      return;
-    }
+    if (!checkAuthAndNavigate()) return;
+
     try {
+      const token = localStorage.getItem("authToken");
       const response = await axios.put(
         `/todos/${editingTodo._id}`,
         { title: editText.trim() },
@@ -168,32 +203,44 @@ const Todos = ({ showAbout }) => {
     } catch (err) {
       setError("Failed to update task. Please try again.");
       console.error("Edit error:", err);
+      if (err.response?.status === 401) {
+        localStorage.removeItem("authToken");
+        navigate("/login");
+      }
     }
   };
 
-const handleUpdateProfile = async (updatedUser) => {
-  try {
-    const response = await fetch("/api/update-profile", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-      },
-      body: JSON.stringify({
-        userId: updatedUser.id,
-        name: updatedUser.name,
-        profileIcon: updatedUser.profileIcon,
-      }),
-    });
+  const handleUpdateProfile = async (updatedUser) => {
+    if (!checkAuthAndNavigate()) return;
 
-    const data = await response.json();
-    if (data.success) {
-      // Optionally, you can show a success message or update the UI
+    try {
+      const token = localStorage.getItem("authToken");
+      const response = await axios.put(
+        "/auth/update-profile",
+        {
+          name: updatedUser.name,
+          profileIcon: updatedUser.profileIcon,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      if (response.data.success) {
+        setUser((prev) => ({
+          ...prev,
+          name: updatedUser.name,
+          profileIcon: updatedUser.profileIcon,
+        }));
+      }
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      if (error.response?.status === 401) {
+        localStorage.removeItem("authToken");
+        navigate("/login");
+      }
     }
-  } catch (error) {
-    console.error("Error updating profile:", error);
-  }
-};
+  };
 
   if (loading) {
     return (
@@ -226,27 +273,17 @@ const handleUpdateProfile = async (updatedUser) => {
         user={user}
         showProfileDropdown={showProfileDropdown}
         setShowProfileDropdown={setShowProfileDropdown}
-        setShowSettingsModal={setShowSettingsModal}
         navigate={navigate}
       />
 
-      {showSettingsModal && (
-        <SettingsModal
-          user={user}
-          setUser={setUser}
-          handleUpdateProfile={handleUpdateProfile}
-          setShowSettingsModal={setShowSettingsModal}
-        />
-      )}
-
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
-        <div className="bg-white bg-opacity-20 rounded-lg shadow-lg p-6 backdrop-blur-md">
-          <div className="flex space-x-2 mb-6">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8 relative z-10">
+        <div className="bg-white bg-opacity-20 rounded-lg shadow-lg p-4 sm:p-6 backdrop-blur-md">
+          <div className="flex flex-wrap gap-2 mb-4 sm:mb-6">
             {["all", "pending", "completed"].map((filterType) => (
               <button
                 key={filterType}
-                onClick={() => setFilter(filterType)}
-                className={`px-4 py-2 rounded-md capitalize transition-colors ${
+                onClick={() => handleFilterChange(filterType)}
+                className={`flex-1 sm:flex-none px-3 sm:px-4 py-2 rounded-md capitalize transition-colors text-sm sm:text-base ${
                   filter === filterType
                     ? "bg-gradient-to-br from-purple-600 to-blue-500 text-white"
                     : "bg-gray-100 text-gray-600 hover:bg-gray-200"
@@ -257,43 +294,48 @@ const handleUpdateProfile = async (updatedUser) => {
             ))}
           </div>
 
-          <form onSubmit={handleAddTodo} className="mb-6">
-            <div className="flex gap-2">
+          <form onSubmit={handleAddTodo} className="mb-4 sm:mb-6">
+            <div className="flex flex-col sm:flex-row gap-2">
               <input
                 type="text"
                 value={newTodo}
                 onChange={(e) => setNewTodo(e.target.value)}
-                className="flex-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="flex-1 p-2 sm:p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm sm:text-base"
                 placeholder="Add a new task..."
                 required
               />
               <button
                 type="submit"
-                className="px-6 py-3 bg-gradient-to-br from-purple-600 to-blue-500 text-white rounded-lg hover:from-blue-500 hover:to-purple-500 transition-colors flex items-center gap-2"
+                className="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-br from-purple-600 to-blue-500 text-white rounded-lg hover:from-blue-500 hover:to-purple-500 transition-colors flex items-center justify-center gap-2 text-sm sm:text-base"
               >
-                <FiPlus /> Add
+                <FiPlus className="w-4 h-4 sm:w-5 sm:h-5" /> Add
               </button>
             </div>
           </form>
 
-          <TodoList
-            filteredTodos={filteredTodos}
-            handleToggleTodo={handleToggleTodo}
-            handleDeleteTodo={handleDeleteTodo}
-            setEditingTodo={setEditingTodo}
-            setEditText={setEditText}
-          />
+          <div className="space-y-2 sm:space-y-3">
+            <TodoList
+              filteredTodos={filteredTodos}
+              handleToggleTodo={handleToggleTodo}
+              handleDeleteTodo={handleDeleteTodo}
+              setEditingTodo={setEditingTodo}
+              setEditText={setEditText}
+              filter={filter}
+            />
+          </div>
         </div>
       </div>
 
-      {editingTodo && (
-        <EditTodoModal
-          editText={editText}
-          setEditText={setEditText}
-          handleEditTodo={handleEditTodo}
-          setEditingTodo={setEditingTodo}
-        />
-      )}
+      <AnimatePresence>
+        {editingTodo && (
+          <EditTodoModal
+            editText={editText}
+            setEditText={setEditText}
+            handleEditTodo={handleEditTodo}
+            setEditingTodo={setEditingTodo}
+          />
+        )}
+      </AnimatePresence>
 
       <ErrorMessage error={error} />
     </div>
