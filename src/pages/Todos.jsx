@@ -13,7 +13,6 @@ import {
 } from "react-icons/fi";
 import ThreeBodyLoader from "../components/ThreeBodyLoader";
 import Navbar from "../components/Todos/Navbar";
-import SettingsModal from "../components/Todos/SettingsModal";
 import EditTodoModal from "../components/Todos/EditTodoModal";
 import ErrorMessage from "../components/Todos/ErrorMessage";
 import TodoList from "../components/Todos/TodoList";

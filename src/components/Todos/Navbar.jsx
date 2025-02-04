@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { FiUser, FiSettings, FiLogOut } from "react-icons/fi";
+import { FiLogOut } from "react-icons/fi";
 
 const Navbar = ({
   showAbout,
   showProfileDropdown,
   setShowProfileDropdown,
-//   setShowSettingsModal,
   navigate,
 }) => {
   const [user, setUser] = useState({
@@ -69,18 +68,6 @@ const Navbar = ({
                       </p>
                     </div>
                   </div>
-
-                  {/* Settings Option */}
-                  {/* <button
-                    onClick={() => {
-                      setShowSettingsModal(true);
-                      setShowProfileDropdown(false);
-                    }}
-                    className="w-full px-4 py-3 text-left text-gray-700 hover:bg-gray-100/50 transition-colors flex items-center gap-2"
-                  >
-                    <FiSettings className="text-gray-600" />
-                    <span>Settings</span>
-                  </button> */}
 
                   {/* Logout Option */}
                   <button
