@@ -80,7 +80,7 @@ src/
 
 ---
 
-## ![Team Icon](https://img.icons8.com/color/48/000000/conference-call.png "Team") Team Members
+<!-- ## ![Team Icon](https://img.icons8.com/color/48/000000/conference-call.png "Team") Team Members
 - **Group A**  
 1. **Omojola Zion Olalekan**  
    LCU/UG/21/19103 - Computer Science  
@@ -101,7 +101,7 @@ src/
    LCU/UG/22/24404 - Computer Science  
 
 7. **Aleilo Muhsin Olamide**  
-   LCU/UG/21/19854 - Computer Science  
+   LCU/UG/21/19854 - Computer Science   -->
 
 ---
 
