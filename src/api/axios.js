@@ -1,10 +1,7 @@
 import axios from "axios";
-import { config } from "../config.js";
-
-const BASE_URL = config.baseURL;
 
 const instance = axios.create({
-  baseURL: BASE_URL,
+  baseURL: process.env.REACT_APP_BASE_URL, // Use environment variable
   headers: {
     "Content-Type": "application/json",
   },
