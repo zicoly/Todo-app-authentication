@@ -13,6 +13,7 @@ import Todos from "./pages/Todos";
 import OnboardingModal from "./pages/OnboardingModal";
 import ForgotPassword from "./Auth/ForgotPassword";
 import ResetPassword from "./Auth/ResetPassword";
+import NotFoundPage from "./NotFoundPage";
 
 const AppContent = () => {
   const isFirstVisit = useFirstVisit();
@@ -48,6 +49,7 @@ const AppContent = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>
   );
