@@ -104,7 +104,7 @@ src/
    LCU/UG/21/19854 - Computer Science  
 
 8. **Okanlawon Mariam Oyebola**
-   LCU/UG/22/24404
+   LCU/UG/22/24404 - Computer Science
 
 ---
 
